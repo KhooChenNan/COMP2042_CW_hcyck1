@@ -1,25 +1,72 @@
 Brick Breaker Game (DMS module Coursework)
 
 Modifications to be added
-1. 2 new bricks to be added (Clay, Steel, Cement, ..., ...)
-2. Addition of buffs and debuffs
-3. There will be multiple lives instead of just 1
-4. New Modes: Sudden death (Clear before time runs out), Expert (Dodging minions that shoot lasers)
-5. Highscore board
+1. 2 new bricks to be added (Clay, Steel, Cement, ..., ...).
+2. Addition of buffs and debuffs.  Their descriptions will be shown on the tutorial, where it teaches how the players to play.
+3. Menu
+4. New Mode: Sudden death (Clear before time runs out).
+5. Highscore board.
+6. There will be multiple lives instead of just 1.  To be precise, the player will start with a maximum health of 3.
+
+NOTE!!
+#1 This is not a level-based game.  It's an arcade game which is a one-time-play and the map is generated randomly/fixed.  However,
+the bricks are confirmed to be generated randomly even if the map is decided to be fixed later on.
 
 == Elaborations ==
 1. The 2 new bricks will be randomly generated in a game and there will be a limit on to how much 1 game can have.
 
 Addition of first brick:
 - Name: Concrete
-- Number per game:
+- Number per game: 10
 - Strength: Between Steel and Cement
 - Drops: BOTH debuffs and buffs
 
 Addition of second brick:
 - Name: Graphene
-- Number per game:
+- Number per game: 5
 - Strength: After Cement (Strongest)
 - Drops: ONLY buffs
 
-2. 
+2. Current ideas for the buffs and debuffs will be listed as the following:
+
+Addition of first buff:
+- Name: Sugar rush
+- Duration: 15 seconds
+- Effect(s): Increases the movement speed of the slab.
+- Description:
+
+Addition of second buff:
+- Name: Elongation pill
+- Duration: 15 seconds
+- Effect(s): Increases the length of the slab by twice of its original length.
+- Description:
+
+Addition of third buff:
+- Name: Freezing field
+- Duration: 10 seconds
+- Effect(s): The speed of the ball will be slowed by half.
+- Description:
+
+Addition of fourth buff:
+- Name: First aid
+- Duration: NULL
+- Effect(s): Increases the number of lives by 1.  If the player's health is at max, which is 3, it will be nullified instead.
+- Description:
+
+3. The appearance and functionality of the menu will be:
+
+- Play button
+- Highscore board
+- Tutorial/"How to play?"
+	-> Explain the concept of the game
+	-> Descriptions for the buffs and debuffs
+	-> Showcase the controls
+- Exit game
+
+4. New mode added will be named Sudden Death
+
+- Just like the normal game but there will be a timer.  You lose if the timer runs out before you clear the game.
+
+5. Highscore board.
+
+- For normal and sudden death mode: Shows the top 5 highscore of the player by comparing their TIME TO CLEAR.
