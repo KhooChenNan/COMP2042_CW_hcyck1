@@ -1,0 +1,25 @@
+Brick Breaker Game (DMS module Coursework)
+
+Modifications to be added
+1. 2 new bricks to be added (Clay, Steel, Cement, ..., ...)
+2. Addition of buffs and debuffs
+3. There will be multiple lives instead of just 1
+4. New Modes: Sudden death (Clear before time runs out), Expert (Dodging minions that shoot lasers)
+5. Highscore board
+
+== Elaborations ==
+1. The 2 new bricks will be randomly generated in a game and there will be a limit on to how much 1 game can have.
+
+Addition of first brick:
+- Name: Concrete
+- Number per game:
+- Strength: Between Steel and Cement
+- Drops: BOTH debuffs and buffs
+
+Addition of second brick:
+- Name: Graphene
+- Number per game:
+- Strength: After Cement (Strongest)
+- Drops: ONLY buffs
+
+2. 
