@@ -14,10 +14,11 @@ abstract public class Ball {
 
     private Point2D center;
 
-    Point2D up;
-    Point2D down;
-    Point2D left;
-    Point2D right;
+    /* Declaration for the attributes */
+    public Point2D up;
+    public Point2D down;
+    public Point2D left;
+    public Point2D right;
 
     private Color border;
     private Color inner;
@@ -28,6 +29,7 @@ abstract public class Ball {
     public Ball(Point2D center,int radiusA,int radiusB,Color inner,Color border){
         this.center = center;
 
+        /* Initialization for the attributes */
         up = new Point2D.Double();
         down = new Point2D.Double();
         left = new Point2D.Double();
@@ -126,5 +128,20 @@ abstract public class Ball {
         return speedY;
     }
 
+    /*  */
+    public Point2D ballUpGetter() {
+    	return up;
+    }
+    
+    public Point2D ballDownGetter() {
+    	return down;
+    }
 
+    public Point2D ballLeftGetter() {
+    	return left;
+    }
+    
+    public Point2D ballRightGetter() {
+    	return right;
+    }
 }
