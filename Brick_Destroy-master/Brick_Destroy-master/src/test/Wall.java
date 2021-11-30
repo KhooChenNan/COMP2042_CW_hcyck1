@@ -30,7 +30,7 @@ public class Wall {
     private static final int STEEL = 2;
     private static final int CEMENT = 3;
 
-    private Random rnd;
+    private Random rnd; // Random number generator 
     private Rectangle area;
 
     Brick[] bricks;
@@ -39,37 +39,42 @@ public class Wall {
 
     private Brick[][] levels;
     private int level;
+    private PlayerController playerController;
 
     private Point startPoint;
     private int brickCount;
     private int ballCount;
     private boolean ballLost;
 
+    /* Wall constructor */    
     public Wall(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos){
 
+    	/* Coordinates of the starting point = the coordinates of the ball position */
         this.startPoint = new Point(ballPos);
-
+        
         levels = makeLevels(drawArea,brickCount,lineCount,brickDimensionRatio);
         level = 0;
 
-        ballCount = 3;
+        ballCount = 3; // Number of balls/lives
         ballLost = false;
 
-        rnd = new Random();
+        rnd = new Random(); // Initializes variable "rnd"
 
-        makeBall(ballPos);
+        makeBall(ballPos); // Calling the make ball function and makes the ball at the starting coordinates
         int speedX,speedY;
         do{
-            speedX = rnd.nextInt(5) - 2;
-        }while(speedX == 0);
+            speedX = rnd.nextInt(5) - 2; // Speed X randomly generated between 0-5 (inclusive) -  2
+        }while(speedX == 0); // Makes sure that the horizontal speed of ball will never be 0 or else it'll keep randomly generating a number
         do{
-            speedY = -rnd.nextInt(3);
+            speedY = -rnd.nextInt(3); // Speed Y randomly generated between 0-3 (inclusive) and then multiplies by -1
         }while(speedY == 0);
 
-        ball.setSpeed(speedX,speedY);
+        ball.setSpeed(speedX,speedY); // Sets horizontal and vertical speed according to the randomly generated speed
 
-        player = new Player((Point) ballPos.clone(),150,10, drawArea);
+        player = new Player((Point) ballPos.clone(),150,10, drawArea); // Initializes a new player
 
+        playerController = new PlayerController(player);
+        
         area = drawArea;
 
 
@@ -80,10 +85,16 @@ public class Wall {
           if brickCount is not divisible by line count,brickCount is adjusted to the biggest
           multiple of lineCount smaller then brickCount
          */
-        brickCnt -= brickCnt % lineCnt;
+    	
+    	/* It's expected that the no. of Bricks are uniformly distributed among the lines but if it's not divisible at first, they'll round down */
+        brickCnt -= brickCnt % lineCnt; 
+        // E.g. First level has 33 bricks and 3 lines.  Expected to be uniformly distributed but it's not
+        // HOWEVER: If it's 31 bricks and 3 lines, it will then round down to 30 bricks
 
-        int brickOnLine = brickCnt / lineCnt;
+        /* Formula for no. of bricks on each lines */
+        int brickOnLine = brickCnt / lineCnt; // E.g. If brick no. = 30 and lines = 3, each lines will have 10 bricks
 
+        /* Attributes for the bricks (Length and Height) */
         double brickLen = drawArea.getWidth() / brickOnLine;
         double brickHgt = brickLen / brickSizeRatio;
 
@@ -160,27 +171,31 @@ public class Wall {
         return tmp;
     }
 
+    /* Makes the ball */
     private void makeBall(Point2D ballPos){
         ball = new RubberBall(ballPos);
     }
 
+    /* Construct the levels */
     private Brick[][] makeLevels(Rectangle drawArea,int brickCount,int lineCount,double brickDimensionRatio){
+    	// Additions/Changes of levels made here
         Brick[][] tmp = new Brick[LEVELS_COUNT][];
-        tmp[0] = makeSingleTypeLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY);
-        tmp[1] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,CEMENT);
-        tmp[2] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,STEEL);
-        tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,STEEL,CEMENT);
+        tmp[0] = makeSingleTypeLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY); // First level
+        tmp[1] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,CEMENT); // Second Level
+        tmp[2] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,STEEL); // Third Level
+        tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,STEEL,CEMENT); // Fourth Level
         return tmp;
     }
 
+    /* Movements for the player and ball */
     public void move(){
-        player.move();
+        playerController.move();
         ball.move();
     }
 
     public void findImpacts(){
         if(player.impact(ball)){
-            ball.reverseY();
+            ball.reverseY(); // If the player comes to contact/impact with the ball, it reverses speed Y
         }
         else if(impactWall()){
             /*for efficiency reverse is done into method impactWall
@@ -189,7 +204,7 @@ public class Wall {
             brickCount--;
         }
         else if(impactBorder()) {
-            ball.reverseX();
+            ball.reverseX(); // Will not reverse speed Y as it's an oblique collision with the border
         }
         else if(ball.getPosition().getY() < area.getY()){
             ball.reverseY();
@@ -200,6 +215,7 @@ public class Wall {
         }
     }
 
+    /* Tests if the ball comes in contact/impact with the Wall */
     private boolean impactWall(){
         for(Brick b : bricks){
             switch(b.findImpact(ball)) {
@@ -228,20 +244,24 @@ public class Wall {
         return ((p.getX() < area.getX()) ||(p.getX() > (area.getX() + area.getWidth())));
     }
 
+    /* Getter method for Brick no. */
     public int getBrickCount(){
         return brickCount;
     }
 
+    /* Getter method for Ball no./Lives */
     public int getBallCount(){
         return ballCount;
     }
 
+    /* Getter method to check whether Ball is lost */
     public boolean isBallLost(){
         return ballLost;
     }
 
+    /* Resets the coordinates of the ball to starting coordinates */
     public void ballReset(){
-        player.moveTo(startPoint);
+        playerController.moveTo(startPoint);
         ball.moveTo(startPoint);
         int speedX,speedY;
         do{
@@ -251,10 +271,12 @@ public class Wall {
             speedY = -rnd.nextInt(3);
         }while(speedY == 0);
 
+        /* Sets the speed of ball and resets the counter */
         ball.setSpeed(speedX,speedY);
-        ballLost = false;
+        ballLost = false; // if (ballLost == true) means you lost a life, else you're still alive
     }
 
+    /* Resets the bricks the moment you clear the level */
     public void wallReset(){
         for(Brick b : bricks)
             b.repair();
@@ -279,20 +301,24 @@ public class Wall {
         return level < levels.length;
     }
 
+    /* Sets the ball's horizontal speed */
     public void setBallXSpeed(int s){
         ball.setXSpeed(s);
     }
 
+    /* Sets the ball's vertical speed */
     public void setBallYSpeed(int s){
         ball.setYSpeed(s);
     }
 
+    /* Resets the lives/Ball no. */
     public void resetBallCount(){
         ballCount = 3;
     }
 
+    /* Constructs the brick */
     private Brick makeBrick(Point point, Dimension size, int type){
-        Brick out;
+        Brick out; // Output of the brick
         switch(type){
             case CLAY:
                 out = new ClayBrick(point,size);
@@ -307,6 +333,11 @@ public class Wall {
                 throw  new IllegalArgumentException(String.format("Unknown Type:%d\n",type));
         }
         return  out;
+    }
+    
+    /* Getter methods */
+    public PlayerController playerControllerGetter() {
+    	return playerController;
     }
 
 }
