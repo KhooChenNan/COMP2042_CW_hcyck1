@@ -45,17 +45,14 @@ abstract public class Brick  {
 
 
         public Crack(int crackDepth, int steps){
-
             crack = new GeneralPath();
             this.crackDepth = crackDepth;
             this.steps = steps;
-
         }
 
 
 
         public GeneralPath draw(){
-
             return crack;
         }
 
@@ -171,7 +168,6 @@ abstract public class Brick  {
             }
             return out;
         }
-
     }
 
     private static Random rnd;

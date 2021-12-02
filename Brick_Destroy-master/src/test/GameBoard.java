@@ -42,6 +42,8 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
     private Timer gameTimer;
 
     private Wall wall;
+    private WallController wallController;
+    private Ball ball;
 
     private String message;
 
@@ -71,29 +73,31 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         this.initialize();
         message = "";
         wall = new Wall(new Rectangle(0,0,DEF_WIDTH,DEF_HEIGHT),30,3,6/2,new Point(300,430));
+        wallController = new WallController(wall, ball);
+        wallController.makeLevels(new Rectangle(0,0,DEF_WIDTH,DEF_HEIGHT),30,3,6/2);
 
-        debugConsole = new DebugConsole(owner,wall,this);
+        debugConsole = new DebugConsole(owner,wall,this, wallController);
         //initialize the first level
         wall.nextLevel();
 
         gameTimer = new Timer(10,e ->{
-            wall.move();
-            wall.findImpacts();
-            message = String.format("Bricks: %d Balls %d",wall.getBrickCount(),wall.getBallCount());
-            if(wall.isBallLost()){
-                if(wall.ballEnd()){
-                    wall.wallReset();
+            wallController.move();
+            wallController.findImpacts();
+            message = String.format("Bricks: %d Balls %d",wall.brickCountGetter(),wall.ballCountGetter());
+            if(wall.ballLostGetter()){
+                if(wallController.ballEnd()){
+                    wallController.wallReset();
                     message = "Game over";
                 }
-                wall.ballReset();
+                wallController.ballReset();
                 gameTimer.stop();
             }
-            else if(wall.isDone()){
+            else if(wallController.isDone()){
                 if(wall.hasLevel()){
                     message = "Go to Next Level";
                     gameTimer.stop();
-                    wall.ballReset();
-                    wall.wallReset();
+                    wallController.ballReset();
+                    wallController.wallReset();
                     wall.nextLevel();
                 }
                 else{
@@ -312,8 +316,8 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         }
         else if(restartButtonRect.contains(p)){
             message = "Restarting Game...";
-            wall.ballReset();
-            wall.wallReset();
+            wallController.ballReset();
+            wallController.wallReset();
             showPauseMenu = false;
             repaint();
         }
