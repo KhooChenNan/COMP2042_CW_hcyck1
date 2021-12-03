@@ -197,7 +197,7 @@ public class WallController {
     /* Resets the coordinates of the ball to starting coordinates */
     public void ballReset(){
         wall.playerControllerGetter().moveTo(wall.startPointGetter());
-        ball.moveTo(wall.startPointGetter());
+        wall.ballGetter().moveTo(wall.startPointGetter());
         int speedX,speedY;
         do{
             speedX = wall.rndGetter().nextInt(5) - 2;
@@ -207,7 +207,7 @@ public class WallController {
         }while(speedY == 0);
 
         /* Sets the speed of ball and resets the counter */
-        ball.setSpeed(speedX,speedY);
+        wall.ballGetter().setSpeed(speedX,speedY);
         wall.ballLostSetter(false); // if (ballLost == true) means you lost a life, else you're still alive
     }
     
