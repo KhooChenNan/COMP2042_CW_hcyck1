@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 
 public class Player { //Used by PlayerController.java
 
-    public static final Color BORDER_COLOR = Color.GREEN.darker().darker();
-    public static final Color INNER_COLOR = Color.GREEN;
+    public static final Color BORDER_COLOR = Color.BLACK.darker().darker();
+    public static final Color INNER_COLOR = Color.GRAY;
 
     private static final int DEF_MOVE_AMOUNT = 5;
 

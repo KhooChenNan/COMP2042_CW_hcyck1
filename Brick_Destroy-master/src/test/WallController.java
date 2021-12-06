@@ -15,27 +15,27 @@ public class WallController {
 		this.ball = ballInput;
 	}
 	
-	private Brick[] makeSingleTypeLevel(Rectangle drawArea, int brickCnt, int lineCnt, double brickSizeRatio, int type){
+	private Brick[] makeSingleTypeLevel(Rectangle drawArea, int brickCount, int lineCnt, double brickSizeRatio, int type){
         /*
           if brickCount is not divisible by line count,brickCount is adjusted to the biggest
           multiple of lineCount smaller then brickCount
          */
     	
     	/* It's expected that the no. of Bricks are uniformly distributed among the lines but if it's not divisible at first, they'll round down */
-        brickCnt -= brickCnt % lineCnt; 
+        brickCount -= brickCount % lineCnt; 
         // E.g. First level has 33 bricks and 3 lines.  Expected to be uniformly distributed but it's not
         // HOWEVER: If it's 31 bricks and 3 lines, it will then round down to 30 bricks
 
         /* Formula for no. of bricks on each lines */
-        int brickOnLine = brickCnt / lineCnt; // E.g. If brick no. = 30 and lines = 3, each lines will have 10 bricks
+        int brickOnLine = brickCount / lineCnt; // E.g. If brick no. = 30 and lines = 3, each lines will have 10 bricks
 
         /* Attributes for the bricks (Length and Height) */
         double brickLen = drawArea.getWidth() / brickOnLine;
         double brickHgt = brickLen / brickSizeRatio;
 
-        brickCnt += lineCnt / 2;
+        brickCount += lineCnt / 2;
 
-        Brick[] tmp  = new Brick[brickCnt];
+        Brick[] tmp  = new Brick[brickCount];
 
         Dimension brickSize = new Dimension((int) brickLen,(int) brickHgt);
         Point p = new Point();
@@ -55,20 +55,21 @@ public class WallController {
         for(double y = brickHgt;i < tmp.length;i++, y += 2*brickHgt){
             double x = (brickOnLine * brickLen) - (brickLen / 2);
             p.setLocation(x,y);
-            tmp[i] = new ClayBrick(p,brickSize);
+            /* Since there will be an extra brick, it will be built based on the first brick input. */
+            tmp[i] = makeBrick(p,brickSize,type); // More Dynamic
+            //tmp[i] = new SteelBrick(p,brickSize); this is for hard coding
         }
         return tmp;
-
     }
 	
-	private Brick[] makeChessboardLevel(Rectangle drawArea, int brickCnt, int lineCnt, double brickSizeRatio, int typeA, int typeB){
+	private Brick[] makeChessboardLevel(Rectangle drawArea, int brickCount, int lineCnt, double brickSizeRatio, int typeA, int typeB){
         /*
           if brickCount is not divisible by line count,brickCount is adjusted to the biggest
           multiple of lineCount smaller then brickCount
          */
-        brickCnt -= brickCnt % lineCnt;
+        brickCount -= brickCount % lineCnt;
 
-        int brickOnLine = brickCnt / lineCnt;
+        int brickOnLine = brickCount / lineCnt;
 
         int centerLeft = brickOnLine / 2 - 1;
         int centerRight = brickOnLine / 2 + 1;
@@ -76,9 +77,9 @@ public class WallController {
         double brickLen = drawArea.getWidth() / brickOnLine;
         double brickHgt = brickLen / brickSizeRatio;
 
-        brickCnt += lineCnt / 2;
+        brickCount += lineCnt / 2;
 
-        Brick[] tmp  = new Brick[brickCnt];
+        Brick[] tmp  = new Brick[brickCount];
 
         Dimension brickSize = new Dimension((int) brickLen,(int) brickHgt);
         Point p = new Point();
@@ -110,10 +111,11 @@ public class WallController {
     public void makeLevels(Rectangle drawArea,int brickCount,int lineCount,double brickDimensionRatio){
     	// Additions/Changes of levels made here
         Brick[][] tmp = new Brick[Wall.LEVELS_COUNT][];
+        
         tmp[0] = makeSingleTypeLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.CLAY); // First level
-        tmp[1] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.CLAY,Wall.CEMENT); // Second Level
-        tmp[2] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.CLAY,Wall.STEEL); // Third Level
-        tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.STEEL,Wall.CEMENT); // Fourth Level
+        tmp[1] = makeSingleTypeLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.CEMENT); // Second Level
+        tmp[2] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.STEEL,Wall.GRAPHITE); // Third Level
+        tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.VIBRANIUM,Wall.GRAPHITE); // Fourth Level
         wall.levelsSetter(tmp);
     }
 
@@ -121,7 +123,6 @@ public class WallController {
     public void move(){
         wall.playerControllerGetter().move();
         wall.ballGetter().move();
-        //ball.move();
     }
 
     public void findImpacts(){
@@ -188,6 +189,12 @@ public class WallController {
             case Wall.CEMENT:
                 out = new CementBrick(point, size);
                 break;
+            case Wall.GRAPHITE:
+                out = new GraphiteBrick(point, size);
+                break;
+            case Wall.VIBRANIUM:
+            	out = new VibraniumBrick(point, size);
+            	break;
             default:
                 throw  new IllegalArgumentException(String.format("Unknown Type:%d\n",type));
         }

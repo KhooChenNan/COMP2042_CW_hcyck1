@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-
+/* Doesn't crack and has a probability of 0.4 to break */
 public class SteelBrick extends Brick {
 
     private static final String NAME = "Steel Brick";
@@ -30,7 +30,7 @@ public class SteelBrick extends Brick {
     private static final int STEEL_STRENGTH = 1;
     private static final double STEEL_PROBABILITY = 0.4;
 
-    private Random rnd;
+    private Random rnd; // 0.0 to 1.0
     private Shape brickFace;
 
     public SteelBrick(Point point, Dimension size){
@@ -38,7 +38,6 @@ public class SteelBrick extends Brick {
         rnd = new Random();
         brickFace = super.brickFace;
     }
-
 
     @Override
     protected Shape makeBrickFace(Point pos, Dimension size) {
@@ -51,14 +50,16 @@ public class SteelBrick extends Brick {
     }
 
     public  boolean setImpact(Point2D point , int dir){
-        if(super.isBroken())
-            return false;
+        if(super.isBroken()) {
+        	return false;
+        }
         impact();
         return  super.isBroken();
     }
 
+    // 40% chance of breaking
     public void impact(){
-        if(rnd.nextDouble() < STEEL_PROBABILITY){
+        if(rnd.nextDouble() < STEEL_PROBABILITY){ // If random value is > 0.4, it won't break
             super.impact();
         }
     }

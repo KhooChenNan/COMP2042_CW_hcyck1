@@ -33,7 +33,6 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
     private static final int TEXT_SIZE = 30;
     private static final Color MENU_COLOR = new Color(0,255,0);
 
-
     private static final int DEF_WIDTH = 600;
     private static final int DEF_HEIGHT = 450;
 
@@ -83,7 +82,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         gameTimer = new Timer(10,e ->{
             wallController.move();
             wallController.findImpacts();
-            message = String.format("Bricks: %d Balls %d",wall.brickCountGetter(),wall.ballCountGetter());
+            message = String.format("Bricks: %d Balls: %d",wall.brickCountGetter(),wall.ballCountGetter());
             if(wall.ballLostGetter()){
                 if(wallController.ballEnd()){
                     wallController.wallReset();
@@ -110,8 +109,6 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         });
 
     }
-
-
 
     private void initialize(){
         this.setPreferredSize(new Dimension(DEF_WIDTH,DEF_HEIGHT));

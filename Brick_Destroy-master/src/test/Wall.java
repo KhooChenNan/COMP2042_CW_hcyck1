@@ -29,6 +29,8 @@ public class Wall {
     public static final int CLAY = 1;
     public static final int STEEL = 2;
     public static final int CEMENT = 3;
+    public static final int GRAPHITE = 4;
+    public static final int VIBRANIUM = 5;
 
     private Random rnd; // Random number generator 
     private Rectangle area;
@@ -63,7 +65,7 @@ public class Wall {
         makeBall(ballPos); // Calling the make ball function and makes the ball at the starting coordinates
         int speedX,speedY;
         do{
-            speedX = rnd.nextInt(5) - 2; // Speed X randomly generated between 0-5 (inclusive) -  2
+        	speedX = rnd.nextInt(5) - 2; // Speed X randomly generated between 0-5 (inclusive) -  2
         }while(speedX == 0); // Makes sure that the horizontal speed of ball will never be 0 or else it'll keep randomly generating a number
         do{
             speedY = -rnd.nextInt(3); // Speed Y randomly generated between 0-3 (inclusive) and then multiplies by -1
@@ -71,7 +73,7 @@ public class Wall {
 
         ball.setSpeed(speedX,speedY); // Sets horizontal and vertical speed according to the randomly generated speed
 
-        player = new Player((Point) ballPos.clone(),150,10, drawArea); // Initializes a new player
+        player = new Player((Point) ballPos.clone(),100,10, drawArea);
 
         playerController = new PlayerController(player);
         

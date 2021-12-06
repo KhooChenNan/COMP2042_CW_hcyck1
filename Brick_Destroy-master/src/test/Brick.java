@@ -22,7 +22,7 @@ abstract public class Brick  {
     public static final int LEFT_IMPACT = 300;
     public static final int RIGHT_IMPACT = 400;
 
-
+    // Not much universal operations.  Steel, clay and cement don't have much common functions
 
     public class Crack{
 
@@ -36,21 +36,16 @@ abstract public class Brick  {
         public static final int VERTICAL = 100;
         public static final int HORIZONTAL = 200;
 
-
-
         private GeneralPath crack;
 
         private int crackDepth;
         private int steps;
-
 
         public Crack(int crackDepth, int steps){
             crack = new GeneralPath();
             this.crackDepth = crackDepth;
             this.steps = steps;
         }
-
-
 
         public GeneralPath draw(){
             return crack;
@@ -66,7 +61,6 @@ abstract public class Brick  {
             Point impact = new Point((int)point.getX(),(int)point.getY());
             Point start = new Point();
             Point end = new Point();
-
 
             switch(direction){
                 case LEFT:
@@ -96,14 +90,11 @@ abstract public class Brick  {
                     makeCrack(impact,tmp);
 
                     break;
-
             }
         }
 
         protected void makeCrack(Point start, Point end){
-
             GeneralPath path = new GeneralPath();
-
 
             path.moveTo(start.x,start.y);
 
@@ -116,17 +107,14 @@ abstract public class Brick  {
             double x,y;
 
             for(int i = 1; i < steps;i++){
-
                 x = (i * w) + start.x;
                 y = (i * h) + start.y + randomInBounds(bound);
 
-                if(inMiddle(i,CRACK_SECTIONS,steps))
-                    y += jumps(jump,JUMP_PROBABILITY);
-
+                if(inMiddle(i,CRACK_SECTIONS,steps)) {
+                	y += jumps(jump,JUMP_PROBABILITY);
+                }
                 path.lineTo(x,y);
-
             }
-
             path.lineTo(end.x,end.y);
             crack.append(path,true);
         }
@@ -192,7 +180,6 @@ abstract public class Brick  {
         this.border = border;
         this.inner = inner;
         this.fullStrength = this.strength = strength;
-
     }
 
     protected abstract Shape makeBrickFace(Point pos,Dimension size);
@@ -245,9 +232,6 @@ abstract public class Brick  {
         strength--;
         broken = (strength == 0);
     }
-
-
-
 }
 
 

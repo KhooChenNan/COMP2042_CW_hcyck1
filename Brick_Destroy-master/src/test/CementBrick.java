@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 
 public class CementBrick extends Brick {
 
-
     private static final String NAME = "Cement Brick";
     private static final Color DEF_INNER = new Color(147, 147, 147);
     private static final Color DEF_BORDER = new Color(217, 199, 175);
@@ -15,7 +14,6 @@ public class CementBrick extends Brick {
 
     private Crack crack;
     private Shape brickFace;
-
 
     public CementBrick(Point point, Dimension size){
         super(NAME,point,size,DEF_BORDER,DEF_INNER,CEMENT_STRENGTH);
@@ -32,10 +30,10 @@ public class CementBrick extends Brick {
     public boolean setImpact(Point2D point, int dir) {
         if(super.isBroken())
             return false;
-        super.impact();
+        super.impact(); // reduces the strength count by 1
         if(!super.isBroken()){
-            crack.makeCrack(point,dir);
-            updateBrick();
+            crack.makeCrack(point,dir); // won't need this if not showing crack
+            updateBrick(); // draws the crack
             return false;
         }
         return true;
