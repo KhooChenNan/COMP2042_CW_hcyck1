@@ -26,12 +26,12 @@ import java.awt.font.FontRenderContext;
 
 public class GameBoard extends JComponent implements KeyListener,MouseListener,MouseMotionListener {
 
-    private static final String CONTINUE = "Continue";
+    private static final String CONTINUE = "Resume";
     private static final String RESTART = "Restart";
     private static final String EXIT = "Exit";
     private static final String PAUSE = "Pause Menu";
     private static final int TEXT_SIZE = 30;
-    private static final Color MENU_COLOR = new Color(0,255,0);
+    private static final Color MENU_COLOR = new Color(51,153,255);
 
     private static final int DEF_WIDTH = 600;
     private static final int DEF_HEIGHT = 450;
@@ -64,10 +64,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         strLen = 0;
         showPauseMenu = false;
 
-
-
-        menuFont = new Font("Monospaced",Font.PLAIN,TEXT_SIZE);
-
+        menuFont = new Font("SanSerif",Font.PLAIN,TEXT_SIZE);
 
         this.initialize();
         message = "";
@@ -82,11 +79,11 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         gameTimer = new Timer(10,e ->{
             wallController.move();
             wallController.findImpacts();
-            message = String.format("Bricks: %d Balls: %d",wall.brickCountGetter(),wall.ballCountGetter());
+            message = String.format("Bricks Destroyed: %d Balls: %d Score: %d",31 - wall.brickCountGetter(),wall.ballCountGetter(),scoreObtained());
             if(wall.ballLostGetter()){
                 if(wallController.ballEnd()){
                     wallController.wallReset();
-                    message = "Game over";
+                    message = "GAME OVER";
                 }
                 wallController.ballReset();
                 gameTimer.stop();
@@ -107,7 +104,18 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
 
             repaint();
         });
-
+    }
+    
+    /*
+     * Number of bricks destroyed = 2 points
+     * Number of lives left = 10 points
+     */
+    private int scoreObtained() {
+    	int finalScore = 0;
+    	
+    	finalScore = (31*2) - (wall.brickCountGetter()*2) + (wall.ballCountGetter()*10);
+    	
+    	return finalScore;
     }
 
     private void initialize(){
@@ -127,7 +135,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         clear(g2d);
 
         g2d.setColor(Color.BLUE);
-        g2d.drawString(message,250,225);
+        g2d.drawString(message,200,225);
 
         drawBall(wall.ball,g2d);
 

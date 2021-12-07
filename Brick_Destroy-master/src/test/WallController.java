@@ -17,11 +17,11 @@ public class WallController {
 	
 	private Brick[] makeSingleTypeLevel(Rectangle drawArea, int brickCount, int lineCnt, double brickSizeRatio, int type){
         /*
-          if brickCount is not divisible by line count,brickCount is adjusted to the biggest
+         * if brickCount is not divisible by line count,brickCount is adjusted to the biggest
           multiple of lineCount smaller then brickCount
+          It's expected that the no. of Bricks are uniformly distributed among the lines but 
+          if it's not divisible at first, they'll round down
          */
-    	
-    	/* It's expected that the no. of Bricks are uniformly distributed among the lines but if it's not divisible at first, they'll round down */
         brickCount -= brickCount % lineCnt; 
         // E.g. First level has 33 bricks and 3 lines.  Expected to be uniformly distributed but it's not
         // HOWEVER: If it's 31 bricks and 3 lines, it will then round down to 30 bricks
@@ -118,8 +118,8 @@ public class WallController {
         tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,Wall.VIBRANIUM,Wall.GRAPHITE); // Fourth Level
         wall.levelsSetter(tmp);
     }
-
-    /* Movements for the player and ball */
+    
+     // Movements for the player and the ball 
     public void move(){
         wall.playerControllerGetter().move();
         wall.ballGetter().move();
@@ -201,16 +201,18 @@ public class WallController {
         return  out;
     }
     
-    /* Resets the coordinates of the ball to starting coordinates */
+    /*
+     * Resets the ball's coordinate back to the original position if the player dies. (BallCount > 0)
+     */
     public void ballReset(){
         wall.playerControllerGetter().moveTo(wall.startPointGetter());
         wall.ballGetter().moveTo(wall.startPointGetter());
         int speedX,speedY;
         do{
-            speedX = wall.rndGetter().nextInt(5) - 2;
+        	speedX = wall.rndGetter().nextInt(5) - 2;
         }while(speedX == 0);
         do{
-            speedY = -wall.rndGetter().nextInt(3);
+        	speedY = -5;
         }while(speedY == 0);
 
         /* Sets the speed of ball and resets the counter */

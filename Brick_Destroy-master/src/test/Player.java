@@ -10,7 +10,7 @@ public class Player { //Used by PlayerController.java
     public static final Color BORDER_COLOR = Color.BLACK.darker().darker();
     public static final Color INNER_COLOR = Color.GRAY;
 
-    private static final int DEF_MOVE_AMOUNT = 5;
+    private static final int DEF_MOVE_AMOUNT = 7;
 
     // Controller shouldn't have any attributes as they should be in Model
     private Rectangle playerFace;

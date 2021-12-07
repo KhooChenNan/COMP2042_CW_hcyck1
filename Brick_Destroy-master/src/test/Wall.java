@@ -68,12 +68,12 @@ public class Wall {
         	speedX = rnd.nextInt(5) - 2; // Speed X randomly generated between 0-5 (inclusive) -  2
         }while(speedX == 0); // Makes sure that the horizontal speed of ball will never be 0 or else it'll keep randomly generating a number
         do{
-            speedY = -rnd.nextInt(3); // Speed Y randomly generated between 0-3 (inclusive) and then multiplies by -1
+        	speedY = -5; // Hard-coded for consistency
         }while(speedY == 0);
 
         ball.setSpeed(speedX,speedY); // Sets horizontal and vertical speed according to the randomly generated speed
 
-        player = new Player((Point) ballPos.clone(),100,10, drawArea);
+        player = new Player((Point) ballPos.clone(),120,10, drawArea);
 
         playerController = new PlayerController(player);
         
