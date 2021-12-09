@@ -1,45 +1,10 @@
 # Brick_Breaker
 
-Description:
-A simple old-school arcade video game MODIFIED by Khoo Chen Nan (20304853).
+--Key changes: (500 words)
 
---Objective:
+    Brick breaker, or sometimes also known as brick destroyer, is an arcade game where the player controls a slab that can only move horizontally and tries to keep the ball alive while destroying bricks by deflecting it upwards.  There are many design patterns when it comes to coding brick breaker but the one which was implemented on my version of brick breaker is called MVC (Model-View-Controller), which is widely used these days due to its cleanliness as it seprates the responsibility of each classes.  As seen from the code, huge classes such as "Player", "Ball", and "Wall" are now separated and now they act as the model class while they have another controller class which consists of the logical operation of the program.  However, not all methods are refactored into their controller classes as some are either private methods (accessible only within that class) or the parameters they take in are mainly from that class so it would be much easier to read if it isn't refactored into another class.
 
-With only 3 lives, destroy all the bricks with the ball by moving the player(slab) to reflect the ball.
+    Theoretically speaking, even though some classes such as Brick and GameBoard could be refactored into MVC pattern, I chose not to separate their methods because there aren't much universal operations as we can see that the 3 original bricks (Clay, Cement, and Steel) does not have much common functions.  On the other hand, "Player.java" consists of methods such as "moveLeft", "moveRight", etc and clearly they can be separated into another controller class.  Due to the fact that some methods from "PlayerController.Java" still use variables from "Player.java", I implemented many getter and setter methods for model classes such as "Player.Java".  The same concept is then applied to "Ball.Java" and "Wall.Java".
+    
+    One of the key changes that I'm mostly proud of will be the implementation of the 2 new bricks (Graphite and Vibranium).  As the normal brick breaker is considered as an easy game, I decided to make a new brick that has 2 lives and has a 50% chance of reducing its life count upon contact instead of 100% while cracking everytime it comes to contact with the ball.  Now, the players will not know when the brick will break unless they have an eidetic memory to memorize how much life count each bricks are left.  Besides Graphite, I also made a new brick called Vibranium.  Unlike Graphite, Vibranium does not crack at all and has the highest life count (3) with lowest probability (30%) of reducing it by 1.  I got the idea from MCU that Vibranium is the strongest metal on Earth (even though it can be destroyed as shown in Endgame) and it absorbs kinetic energy.  Hence, it does not crack at all while having the highest life count.  The other key changes I'm also proud of is the refactoring of "Wall.Java".  This is due to the fact that most classes are dependent on Wall.Java and their methods explanations are very vague.  One simple change in "Wall.Java" will cause the entire program to not function.
 
---Descriptions/Instructions:
-
-1. After running the game, there will be 3 buttons on the Home Menu and they are: Start button, Tutorial Button, and Exit Button respectively.
-2. By pressing the start button, the player will be redirected to the game.
-3. On the other hand, by pressing the tutorial button, the player will be redirected to a page which consists of the instructions and a start
-button.
-4. The last button on the Home Menu is the "Exit" button.  Upon pressing that button, the game will terminate.
-5. Once redirected to the game, the player needs to destroy all the bricks with a set amount of lives (3).
-6. The calculation of score: 2 points for every bricks destroyed + 10 points for the amount of lives left.
-
---Brick types:
-
-Important Note: There will always be crack upon contacting the ball with the bricks regardless of reducing the brick life count
-so that players are not able to know when it will actually break.
-
-Clay = Breaks upon one contact
-Cement = Breaks upon two contacts and it cracks.
-Steel = Has a 40% chance of breaking upon contact once.
-Graphite = Cracks and has a 50% chance of reducing its life count upon contact and has 2 lives.
-Vibranium = Never cracks and has a 30% chance of reducing its life count upon contact and has 3 lives.  
-
---Levels:
-
-Level 1 = Clay only
-Level 2 = Cement only
-Level 3 = Steel and Graphite
-Level 4 = Vibranium and Graphite
-
---Controls:
-
-1. SPACE = To start/pause the game
-2. "A" key = Move the player to left
-3. "D" key = Move the player to right
-4. "ESC" key = To enter/exit the pause menu
-
-Good luck and have fun!

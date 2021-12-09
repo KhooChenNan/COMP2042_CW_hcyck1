@@ -21,7 +21,12 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-
+/**
+ * 
+ * Wall constructor
+ * Testing
+ *
+ */
 public class Wall {
 
     public static final int LEVELS_COUNT = 4;
@@ -32,7 +37,7 @@ public class Wall {
     public static final int GRAPHITE = 4;
     public static final int VIBRANIUM = 5;
 
-    private Random rnd; // Random number generator 
+    private Random rnd; // Random number generator
     private Rectangle area;
 
     Brick[] bricks;
@@ -73,7 +78,7 @@ public class Wall {
 
         ball.setSpeed(speedX,speedY); // Sets horizontal and vertical speed according to the randomly generated speed
 
-        player = new Player((Point) ballPos.clone(),120,10, drawArea);
+        player = new Player((Point) ballPos.clone(),150,10, drawArea);
 
         playerController = new PlayerController(player);
         

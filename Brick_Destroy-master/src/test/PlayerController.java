@@ -8,7 +8,10 @@ public class PlayerController {
 
 	private Player player;
 	
-	/* Initialization */
+	/**
+	 * Constructor 
+	 * @param player
+	 */
 	public PlayerController(Player player) {
 		this.player = player;
 	}
